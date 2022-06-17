@@ -102,7 +102,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
         return userList;
     }
 
-    public void cleanUsersTable() {
+    public void cleanUsersTable() throws SQLException {
         Statement statement = null;
         String sql = "TRUNCATE TABLE users";
         try {
@@ -110,6 +110,13 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
         }
     }
 }
